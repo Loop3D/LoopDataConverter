@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class BaseTypeConverter(ABC):
+class BaseConverter(ABC):
 
     def __init__(self):
         self._type_label = "BaseTypeConverter"
@@ -9,15 +9,19 @@ class BaseTypeConverter(ABC):
         return self._type_label
     
     @abstractmethod
-    def set(self):
+    def convert_fold_map(self):
         pass
     
     @abstractmethod
-    def get(self):
+    def convert_fault_map(self):
         pass
 
     @abstractmethod
-    def map(self):
+    def convert_geology_map(self):
+        pass
+
+    @abstractmethod
+    def convert_structure_map(self):
         pass
 
     @abstractmethod
