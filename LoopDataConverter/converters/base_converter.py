@@ -17,10 +17,6 @@ class BaseConverter(ABC):
         pass
 
     @abstractmethod
-    def convert_geology_map(self):
-        pass
-
-    @abstractmethod
     def convert_structure_map(self):
         pass
 
