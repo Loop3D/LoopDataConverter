@@ -1,13 +1,20 @@
+from .ntgs_converter import NTGSConverter
+from ..datatypes import SurveyName
+
 
 class ConversionManager:
-    def __init__(self):
-        self._converters = []
+    def __init__(self, file):
+        self._converters = {
+            SurveyName.NTGS: NTGSConverter,
+            SurveyName.GA: "",
+            SurveyName.GSQ: "",
+            SurveyName.GSWA: "",
+            SurveyName.GSSA: "",
+            SurveyName.GSV: "",
+            SurveyName.MRT: "",
+            SurveyName.GSNSW: "",
+        }
 
-    def add_converter(self, converter):
-        self._converters.append(converter)
+    # the conversion manager is responsible for looking up the correct file reader for the given file type
+    # and then converting the data to the correct format using the correct converter
 
-    def convert(self, data):
-        for converter in self._converters:
-            if converter.can_convert(data):
-                return converter.convert(data)
-        raise ValueError('No converter found for data: {}'.format(data))
