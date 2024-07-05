@@ -1,1 +1,1 @@
-from file_readers import FileReader
+from file_readers import LoopGisReader

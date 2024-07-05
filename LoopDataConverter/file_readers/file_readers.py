@@ -112,12 +112,13 @@ class GeoDataFileReader(BaseFileReader):
         self.data = geopandas.GeoDataFrame(self.file)
 
 
-class FileReader:
+class LoopGisReader:
     def __init__(self, file_source, layer=None):
         self.layer = layer
         self.file_source = file_source
         self.reader = self.assign_reader()
         self.file_reader_label = self.reader.type()
+        self.data = self.read()
 
     def get_extension(self):
         return os.path.splitext(self.file_source)[1]
