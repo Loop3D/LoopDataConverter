@@ -1,9 +1,24 @@
 from .ntgs_converter import NTGSConverter
 from ..datatypes import SurveyName
+from ..file_readers import LoopGisReader
 
 
-class ConversionManager:
-    def __init__(self, file):
+class LoopConverter:
+    """
+    LoopConverter class use the LoopGisReader to look up the correct file
+    reader for the input file type and then converting the data to 
+    Map2Loop or LoopStrucural formats using the adequate converter
+    """
+
+    def __init__(
+        self,
+        survey_name: SurveyName,
+        file,
+        layer: str = None,
+    ):
+        self._file = file
+        self._layer = layer
+        self._survey_name = survey_name
         self._converters = {
             SurveyName.NTGS: NTGSConverter,
             SurveyName.GA: "",
@@ -11,10 +26,23 @@ class ConversionManager:
             SurveyName.GSWA: "",
             SurveyName.GSSA: "",
             SurveyName.GSV: "",
-            SurveyName.MRT: "",
             SurveyName.GSNSW: "",
+            SurveyName.MRT: "",
         }
 
-    # the conversion manager is responsible for looking up the correct file reader for the given file type
-    # and then converting the data to the correct format using the correct converter
+    def read_file(self):
+        """
+        read the file using the correct file reader
+        """
+        file_reader = LoopGisReader(self._file)
+        file_reader.read(self._file, self._layer)
+        return file_reader.data
 
+    def get_converter(self):
+        return self._converters[self._survey_name]
+    
+    def convert(self):
+        data = self.read_file()
+        converter = self.get_converter()
+        converter = converter(data)
+        return converter
