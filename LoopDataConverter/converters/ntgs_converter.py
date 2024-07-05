@@ -13,6 +13,7 @@ import numpy
 
 
 class NTGSConverter(BaseConverter):
+    # TODO: modify class to take fold, fault, and structure layers as arguments
     def __init__(self, data: pandas.DataFrame):
         self.raw_data = data.copy()
         self._type_label = "NTGSConverter"
