@@ -44,5 +44,5 @@ class LoopConverter:
     def convert(self):
         data = self.read_file()
         converter = self.get_converter()
-        converter = converter(data)
-        return converter
+        converter(data)
+        self.data = converter._data
