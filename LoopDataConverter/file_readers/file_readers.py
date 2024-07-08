@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ..datatypes import Datatype, Filetype
+from .datatypes import Datatype, Filetype
 from ..input.input_data import InputData, OutputData
 import beartype
 import pandas
