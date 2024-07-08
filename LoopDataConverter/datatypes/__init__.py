@@ -1,1 +1,1 @@
-from .enums import Datatype, SurveyName
+from .enums import Datatype, SurveyName, Filetype

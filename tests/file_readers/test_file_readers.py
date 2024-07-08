@@ -1,6 +1,6 @@
 import pytest
 import geopandas as gpd
-from ..file_readers import GeoDataFileReader
+from LoopDataConverter.file_readers import GeoDataFileReader
 import os
 import tempfile
 
