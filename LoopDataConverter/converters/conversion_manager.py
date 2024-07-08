@@ -1,7 +1,7 @@
 from .ntgs_converter import NTGSConverter
 from ..datatypes import SurveyName
 from ..file_readers import LoopGisReader
-
+from ..input import InputData
 
 class LoopConverter:
     """
@@ -13,10 +13,10 @@ class LoopConverter:
     def __init__(
         self,
         survey_name: SurveyName,
-        file,
+        data: InputData,
         layer: str = None,
     ):
-        self._file = file
+        self._fileData = data
         self._layer = layer
         self._survey_name = survey_name
         self._converters = {
@@ -34,8 +34,8 @@ class LoopConverter:
         """
         read the file using the correct file reader
         """
-        file_reader = LoopGisReader(self._file)
-        file_reader.read(self._file, self._layer)
+        file_reader = LoopGisReader(self._fileData)
+        file_reader.read(self._fileData, self._layer)
         return file_reader.data
 
     def get_converter(self):
