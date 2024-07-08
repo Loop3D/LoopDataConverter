@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from ..datatypes import Datatype, Filetype
+from ..input.input_data import InputData, OutputData
 import beartype
 import pandas
 import geopandas
@@ -113,20 +115,20 @@ class GeoDataFileReader(BaseFileReader):
 
 
 class LoopGisReader:
-    def __init__(self, file_source, layer=None):
-        self.layer = layer
-        self.file_source = file_source
-        self.reader = self.assign_reader()
-        self.file_reader_label = self.reader.type()
-        self.data = self.read()
+    def __init__(self, fileData, layer=None):
+        self._layer = layer
+        self._fileData = fileData
+        self._reader = [None] * len(Datatype) 
+        self.file_reader_label = [None] * len(Datatype)  
+        self._data = [None] * len(Datatype)
 
-    def get_extension(self):
-        return os.path.splitext(self.file_source)[1]
+    def get_extension(self, file_source):
+        return os.path.splitext(file_source)[1]
 
-    def assign_reader(self):
-        file_extension = self.get_extension()
+    def assign_reader(self, file_source):
+        file_extension = self.get_extension(file_source)
 
-        if validators.url(self.file_source) or file_extension == ".csv":
+        if file_extension == ".csv":
             return CSVFileReader()
 
         elif file_extension in [".shp", ".geojson", ".gpkg"]:
@@ -135,10 +137,47 @@ class LoopGisReader:
         else:
             raise ValueError(f"Unsupported file format: {file_extension}")
 
-    def read(self):
-        self.reader.read(self.file_source, self.layer)
+    def read(self, datatype: Datatype):
+        self._reader.read(self._fileData[Datatype.GEOLOGY], self._layer)
 
-        return self.reader.data
+        return self._reader.data
+
+    def __call__(self):
+        """
+        Read all files in the input data
+        """
+
+        if self._fileData[Datatype.GEOLOGY] is not None:
+            self._reader[Datatype.GEOLOGY] = self.assign_reader(
+                self._fileData[Datatype.GEOLOGY]
+            )
+            self.file_reader_label[Datatype.GEOLOGY] = self._reader[
+                Datatype.GEOLOGY
+            ].type()
+            self._data[Datatype.GEOLOGY] = self.read(Datatype.GEOLOGY)
+
+        if self._fileData[Datatype.STRUCTURE] is not None:
+            self._reader[Datatype.STRUCTURE] = self.assign_reader(
+                self._fileData[Datatype.STRUCTURE]
+            )
+            self.file_reader_label[Datatype.STRUCTURE] = self._reader[
+                Datatype.STRUCTURE
+            ].type()
+            self._data[Datatype.STRUCTURE] = self.read(Datatype.STRUCTURE)
+
+        if self._fileData[Datatype.FAULT] is not None:
+            self._reader[Datatype.FAULT] = self.assign_reader(
+                self._fileData[Datatype.FAULT]
+            )
+            self.file_reader_label[Datatype.FAULT] = self._reader[Datatype.FAULT].type()
+            self._data[Datatype.FAULT] = self.read(Datatype.FAULT)
+
+        if self._fileData[Datatype.FOLD] is not None:
+            self._reader[Datatype.FOLD] = self.assign_reader(
+                self._fileData[Datatype.FOLD]
+            )
+            self.file_reader_label[Datatype.FOLD] = self._reader[Datatype.FOLD].type()
+            self._data[Datatype.FOLD] = self.read(Datatype.FOLD)
 
     def save(self, file_path, file_extension=None):
-        self.reader.save(file_path, file_extension)
+        self._reader.save(file_path, file_extension)
