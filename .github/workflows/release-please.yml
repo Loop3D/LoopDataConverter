@@ -42,7 +42,7 @@ jobs:
         shell: bash -l {0}
         run: |
           pip install . --user
-      - name: pytest
+      - name: Testing
         shell: bash -l {0}
         run: |
           pytest
