@@ -5,27 +5,23 @@ import os
 package_root = os.path.abspath(os.path.dirname(__file__))
 
 version = {}
-with open(os.path.join(package_root, "FoldOptLib/version.py")) as fp:
+with open(os.path.join(package_root, "LoopDataConverter/version.py")) as fp:
     exec(fp.read(), version)
 version = version["__version__"]
 
 setup(
     name="LoopDataConverter",
     install_requires=[
-        "loopstructural>=1.4.10",
-        "ipywidgets",
-        "mplstereonet",
-        "scipy>=1.11.3",  # 1.11.3 is required to use vonmises_fisher() in scipy.stats
         "dill",
         "beartype",
     ],
     python_requires=">=3.9",
-    description="Open source Fold Geometry Optimisers for LoopStructural and Map2Loop",
+    description="Loop GIS data conversion library for LoopStructural and Map2Loop",
     long_description=codecs.open("README.md", "r", "utf-8").read(),
     author="Rabii Chaarani",
     author_email="rabii.chaarani@monash.edu",
     license=("MIT"),
-    url="https://github.com/Loop3D/FoldOptLib",
+    url="https://github.com/Loop3D/LoopDataConverter",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
@@ -46,7 +42,7 @@ setup(
         "geology",
         "3-D modelling",
         "structural geology",
-        "uncertainty",
-        "fold geometry",
+        "GIS",
+        "geological mapping",
     ],
 )
