@@ -104,7 +104,8 @@ def convert_tightness_terms(tightness_term: str):
         return 0.0
     else:
         return numpy.nan
-    
+
+
 def convert_displacement_terms(displacement_term: str):
     """
     Convert displacement terms to meters.

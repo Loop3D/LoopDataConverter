@@ -11,10 +11,7 @@ version = version["__version__"]
 
 setup(
     name="LoopDataConverter",
-    install_requires=[
-        "dill",
-        "beartype",
-    ],
+    install_requires=["dill", "beartype"],
     python_requires=">=3.9",
     description="Loop GIS data conversion library for LoopStructural and Map2Loop",
     long_description=codecs.open("README.md", "r", "utf-8").read(),

@@ -3,19 +3,15 @@ from ..datatypes import SurveyName
 from ..file_readers import LoopGisReader
 from ..input import InputData
 
+
 class LoopConverter:
     """
     LoopConverter class use the LoopGisReader to look up the correct file
-    reader for the input file type and then converting the data to 
+    reader for the input file type and then converting the data to
     Map2Loop or LoopStrucural formats using the adequate converter
     """
 
-    def __init__(
-        self,
-        survey_name: SurveyName,
-        data: InputData,
-        layer: str = None,
-    ):
+    def __init__(self, survey_name: SurveyName, data: InputData, layer: str = None):
         self._fileData = data
         self._layer = layer
         self._survey_name = survey_name
@@ -40,7 +36,7 @@ class LoopConverter:
 
     def get_converter(self):
         return self._converters[self._survey_name]
-    
+
     def convert(self):
         data = self.read_file()
         converter = self.get_converter()

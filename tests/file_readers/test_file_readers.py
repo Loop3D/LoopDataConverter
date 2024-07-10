@@ -7,7 +7,6 @@ import os
 import tempfile
 
 
-
 # build structures file
 structures = [
     {
@@ -77,6 +76,8 @@ shp_structures = geopandas.GeoDataFrame(structures, crs='epsg:7854')
 f_path = tempfile.mkdtemp()
 shp_structures.to_file(os.path.join(f_path, "structures.shp"))
 shp_structures.to_file(os.path.join(f_path, "structures.geojson"), driver="GeoJSON")
+
+
 # csv_structures.to_csv(os.path.join(f_path, "structures.csv"))
 # Fixtures for sample file sources
 @pytest.fixture
@@ -84,24 +85,29 @@ def shp_file_source():
     # Assuming a sample .shp file exists for testing
     return os.path.join(f_path, "structures.shp")
 
+
 @pytest.fixture
 def geojson_file_source():
     # Assuming a sample .geojson file exists for testing
     return os.path.join(f_path, "structures.geojson")
+
 
 # @pytest.fixture
 # def gpkg_file_source():
 #     # Assuming a sample .gpkg file exists for testing, with a layer name
 #     return "sample_data/sample.gpkg", "layer1"
 
+
 @pytest.fixture
 def invalid_file_source():
     return "sample_data/invalid.txt"
+
 
 # Test Initialization
 def test_initialization():
     reader = GeoDataFileReader()
     assert reader.file_reader_label == "GeoDataFileReader"
+
 
 # Test Check Source Type
 def test_check_source_type_valid(shp_file_source, geojson_file_source):
@@ -111,10 +117,12 @@ def test_check_source_type_valid(shp_file_source, geojson_file_source):
     reader.check_source_type(geojson_file_source)
     # reader.check_source_type(gpkg_file_source[0])
 
+
 def test_check_source_type_invalid(invalid_file_source):
     reader = GeoDataFileReader()
     with pytest.raises(AssertionError):
         reader.check_source_type(invalid_file_source)
+
 
 # Test Get File
 @pytest.mark.parametrize("file_source", ["shp_file_source", "geojson_file_source"])
@@ -128,10 +136,12 @@ def test_get_file(file_source, request):
         df = reader.get_file(file_source)
     assert isinstance(df, geopandas.GeoDataFrame)
 
+
 def test_get_file_unsupported(invalid_file_source):
     reader = GeoDataFileReader()
     with pytest.raises(ValueError):
         reader.get_file(invalid_file_source)
+
 
 # Test Read Method
 def test_read_method_shp(shp_file_source):
@@ -139,10 +149,12 @@ def test_read_method_shp(shp_file_source):
     reader.read(shp_file_source)
     assert isinstance(reader.data, geopandas.GeoDataFrame)
 
+
 def test_read_method_geojson(geojson_file_source):
     reader = GeoDataFileReader()
     reader.read(geojson_file_source)
     assert isinstance(reader.data, geopandas.GeoDataFrame)
+
 
 # Test Save Method
 def test_save_method(geojson_file_source):
@@ -152,6 +164,7 @@ def test_save_method(geojson_file_source):
         save_path = os.path.join(tmpdirname, "output.geojson")
         reader.save(save_path, "geojson")
         assert os.path.exists(save_path)
+
 
 def test_save_method_unsupported(geojson_file_source):
     reader = GeoDataFileReader()

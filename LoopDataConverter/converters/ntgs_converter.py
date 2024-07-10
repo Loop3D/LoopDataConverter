@@ -51,9 +51,7 @@ class NTGSConverter(BaseConverter):
 
     def convert_structure_map(self):
         # discard any rows that has a dip value of -99 and does not have any esimated dip value
-        condition = (self.raw_data["Dip"] != -99) & (
-            self.raw_data["DipEstimate"] != numpy.nan
-        )
+        condition = (self.raw_data["Dip"] != -99) & (self.raw_data["DipEstimate"] != numpy.nan)
         self.raw_data = self.raw_data[condition]
         # convert dip estimate to float (average of the range)
         condition = self.raw_data["Dip"] == -99

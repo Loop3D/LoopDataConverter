@@ -9,6 +9,7 @@ class Datatype(IntEnum):
     DTM = 4
     FAULT_ORIENTATION = 5
 
+
 class SurveyName(IntEnum):
 
     GA = 0
@@ -20,10 +21,11 @@ class SurveyName(IntEnum):
     MRT = 6
     GSNSW = 7
 
+
 class Filetype(IntEnum):
 
     CSV = 0
     GEOJSON = 1
     SHP = 2
     GPKG = 3
-    ZIP = 4 
+    ZIP = 4

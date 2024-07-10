@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class BaseConverter(ABC):
 
     def __init__(self):
@@ -7,11 +8,11 @@ class BaseConverter(ABC):
 
     def type(self):
         return self._type_label
-    
+
     @abstractmethod
     def convert_fold_map(self):
         pass
-    
+
     @abstractmethod
     def convert_fault_map(self):
         pass
@@ -23,4 +24,3 @@ class BaseConverter(ABC):
     @abstractmethod
     def convert(self):
         pass
-    

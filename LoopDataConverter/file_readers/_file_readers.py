@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-from ..datatypes.enums import Datatype, Filetype
-from ..input.input_data import InputData, OutputData
+from ..datatypes.enums import Datatype
 import beartype
 import pandas
 import geopandas
@@ -118,8 +117,8 @@ class LoopGisReader:
     def __init__(self, fileData, layer=None):
         self._layer = layer
         self._fileData = fileData
-        self._reader = [None] * len(Datatype) 
-        self.file_reader_label = [None] * len(Datatype)  
+        self._reader = [None] * len(Datatype)
+        self.file_reader_label = [None] * len(Datatype)
         self._data = [None] * len(Datatype)
 
     def get_extension(self, file_source):
@@ -148,34 +147,24 @@ class LoopGisReader:
         """
 
         if self._fileData[Datatype.GEOLOGY] is not None:
-            self._reader[Datatype.GEOLOGY] = self.assign_reader(
-                self._fileData[Datatype.GEOLOGY]
-            )
-            self.file_reader_label[Datatype.GEOLOGY] = self._reader[
-                Datatype.GEOLOGY
-            ].type()
+            self._reader[Datatype.GEOLOGY] = self.assign_reader(self._fileData[Datatype.GEOLOGY])
+            self.file_reader_label[Datatype.GEOLOGY] = self._reader[Datatype.GEOLOGY].type()
             self._data[Datatype.GEOLOGY] = self.read(Datatype.GEOLOGY)
 
         if self._fileData[Datatype.STRUCTURE] is not None:
             self._reader[Datatype.STRUCTURE] = self.assign_reader(
                 self._fileData[Datatype.STRUCTURE]
             )
-            self.file_reader_label[Datatype.STRUCTURE] = self._reader[
-                Datatype.STRUCTURE
-            ].type()
+            self.file_reader_label[Datatype.STRUCTURE] = self._reader[Datatype.STRUCTURE].type()
             self._data[Datatype.STRUCTURE] = self.read(Datatype.STRUCTURE)
 
         if self._fileData[Datatype.FAULT] is not None:
-            self._reader[Datatype.FAULT] = self.assign_reader(
-                self._fileData[Datatype.FAULT]
-            )
+            self._reader[Datatype.FAULT] = self.assign_reader(self._fileData[Datatype.FAULT])
             self.file_reader_label[Datatype.FAULT] = self._reader[Datatype.FAULT].type()
             self._data[Datatype.FAULT] = self.read(Datatype.FAULT)
 
         if self._fileData[Datatype.FOLD] is not None:
-            self._reader[Datatype.FOLD] = self.assign_reader(
-                self._fileData[Datatype.FOLD]
-            )
+            self._reader[Datatype.FOLD] = self.assign_reader(self._fileData[Datatype.FOLD])
             self.file_reader_label[Datatype.FOLD] = self._reader[Datatype.FOLD].type()
             self._data[Datatype.FOLD] = self.read(Datatype.FOLD)
 
