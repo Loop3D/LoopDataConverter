@@ -15,6 +15,12 @@ requirements:
   build:
     - {{ compiler('cxx') }}
     - numpy
+    - pandas 
+    - geopandas
+    - shapely
+    - dill
+    - validators
+    - beartype
   host:
     - pip
     - python
