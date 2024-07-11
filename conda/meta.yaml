@@ -1,4 +1,4 @@
-{% set name = "loopdataconverter" %}
+{% set name = "LoopDataConverter" %}
 
 package:
   name: "{{ name|lower }}"
