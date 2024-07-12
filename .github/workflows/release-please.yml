@@ -49,18 +49,7 @@ jobs:
 
   release-please:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - uses: GoogleCloudPlatform/release-please-action@v4
-        id: release
-        with:
-          release-type: python
-          package-name: LoopDataConverter
-          version-file: LoopDataConverter/version.py
-    outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
-      
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
       - uses: GoogleCloudPlatform/release-please-action@v4
         id: release
