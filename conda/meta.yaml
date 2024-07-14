@@ -21,6 +21,7 @@ requirements:
     - dill
     - validators
     - beartype
+    - sqlite
   host:
     - pip
     - python
