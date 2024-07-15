@@ -1,0 +1,12 @@
+# Changelog
+
+## [0.1.1](https://github.com/Loop3D/LoopDataConverter/compare/0.1.0...v0.1.1) (2024-07-15)
+
+
+### Bug Fixes
+
+* correct version string ([e39e62b](https://github.com/Loop3D/LoopDataConverter/commit/e39e62be4bf795d45dbf74712af8a350ac1bbb14))
+* install correct dependencies ([c1e2457](https://github.com/Loop3D/LoopDataConverter/commit/c1e24574b37d1383874d611041398d68165dbba8))
+* try build sqlite in conda-build ([970fc3b](https://github.com/Loop3D/LoopDataConverter/commit/970fc3b5131f7d4469f33337f8cbe0f22d32ac3b))
+* try build sqlite in conda-build 2 ([6e0e69a](https://github.com/Loop3D/LoopDataConverter/commit/6e0e69a420a5165892a33be8d74296fad9da1954))
+* try sqlite as dependency ([2f2743d](https://github.com/Loop3D/LoopDataConverter/commit/2f2743d953a1d5fa2cfbc2e07676570a7085e531))
