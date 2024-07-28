@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/Loop3D/LoopDataConverter/compare/v0.1.1...v0.1.2) (2024-07-28)
+
+
+### Bug Fixes
+
+* skip_existing deprecated ([cfb2dac](https://github.com/Loop3D/LoopDataConverter/commit/cfb2dac515b21ecfce927c68d3ed77549bae733f))
+
 ## [0.1.1](https://github.com/Loop3D/LoopDataConverter/compare/0.1.0...v0.1.1) (2024-07-15)
 
 
