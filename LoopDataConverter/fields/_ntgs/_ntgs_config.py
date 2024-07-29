@@ -1,7 +1,7 @@
 from ...datatypes.enums import Datatype
 
 
-class NtgsToM2lConfig:
+class NtgsConfig:
     def __init__(self):
         self.fold_config = (
             {
@@ -75,9 +75,3 @@ class NtgsToM2lConfig:
 
     def __getitem__(self, datatype):
         return self.config_map[datatype]
-
-
-
-class NtgsToLsConfig:
-    
-    
