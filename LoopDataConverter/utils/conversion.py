@@ -3,7 +3,7 @@ import beartype
 
 
 @beartype.beartype
-def convert_dipdir_cardinals(cardinal: str):
+def convert_dipdir_terms(cardinal: str):
     """
     Convert cardinal directions to degrees.
 
