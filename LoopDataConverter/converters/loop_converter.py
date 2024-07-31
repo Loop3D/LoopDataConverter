@@ -15,7 +15,7 @@ class LoopConverter:
         '''
         This function initializes an object with survey name, input data, and optional layer
         information, along with converters for different survey names.
-        
+
         Parameters
         ----------
         survey_name : SurveyName
@@ -28,7 +28,7 @@ class LoopConverter:
             The `layer` parameter in the `__init__` method is a string that represents a specific layer
         within the data. It is an optional parameter with a default value of `None`, which means it can
         be omitted when creating an instance of the class. If provided, it specifies the layer to
-        
+
         '''
         self._fileData = data
         self._layer = layer
@@ -55,12 +55,12 @@ class LoopConverter:
     def get_converter(self):
         '''
         This function returns a converter based on the survey name.
-        
+
         Returns
         -------
             The `get_converter` method is returning the converter associated with the survey name stored in
         the `_survey_name` attribute.
-        
+
         '''
         return self._converters[self._survey_name]
 
@@ -68,7 +68,7 @@ class LoopConverter:
         '''
         This function reads data from a file, uses a converter to process the data, and stores the
         converted data in the object's data attribute.
-        
+
         '''
         data = self.read_file()
         converter = self.get_converter()
