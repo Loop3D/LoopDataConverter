@@ -48,8 +48,7 @@ class LoopConverter:
         """
         read the file using the correct file reader
         """
-        file_reader = LoopGisReader(self._fileData)
-        file_reader.read(self._fileData, self._layer)
+        file_reader = LoopGisReader(self._fileData)()
         return file_reader.data
 
     def get_converter(self):
