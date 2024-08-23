@@ -25,9 +25,9 @@ class LoopConverter:
             The `data` parameter in the `__init__` method is of type `InputData`. It seems to represent the
         data that will be used in the survey.
         layer : str
-            The `layer` parameter in the `__init__` method is a string that represents a specific layer
-        within the data. It is an optional parameter with a default value of `None`, which means it can
-        be omitted when creating an instance of the class. If provided, it specifies the layer to
+            The `layer` parameter is a string that represents a specific layer within a .GPKG file. 
+            It is an optional parameter with a default value of `None`, which means it can be omitted 
+            when creating an instance of the class. If provided, it specifies the layer to
 
         '''
         self._fileData = data
@@ -43,13 +43,15 @@ class LoopConverter:
             SurveyName.GSNSW: "",
             SurveyName.MRT: "",
         }
+        self._used_converter = None
 
     def read_file(self):
         """
         read the file using the correct file reader
         """
-        file_reader = LoopGisReader(self._fileData)()
-        return file_reader.data
+        self.file_reader = LoopGisReader(self._fileData)
+        self.file_reader()
+        return self.file_reader._data
 
     def get_converter(self):
         '''
@@ -70,6 +72,7 @@ class LoopConverter:
 
         '''
         data = self.read_file()
-        converter = self.get_converter()
-        converter(data)
-        self.data = converter._data
+        self._used_converter = self.get_converter()
+        self._used_converter = self._used_converter(data)
+        self._used_converter.convert()
+        self.data = self._used_converter._data
