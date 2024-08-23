@@ -1,8 +1,7 @@
 import numpy
-import beartype
 
 
-@beartype.beartype
+
 def convert_dipdir_terms(cardinal: str):
     """
     Convert cardinal directions to degrees.
@@ -12,6 +11,8 @@ def convert_dipdir_terms(cardinal: str):
 
     return (float): The cardinal direction in degrees.
     """
+    if cardinal == "NaN":
+        return numpy.nan
     if cardinal == "N":
         return 0.0
     elif cardinal == "NNE":
@@ -77,6 +78,17 @@ def convert_dip_terms(dip_term: str, type: str):
         elif dip_term == "Inclined":
             return 45.0
         elif dip_term == "Reclined":
+            return 75.0
+        else:
+            return numpy.nan
+    elif type == "structure":
+        if dip_term == "0-5":
+            return 2.5
+        elif dip_term == "5-15":
+            return 10.0
+        elif dip_term == "15-45":
+            return 45.0
+        elif dip_term == ">45":
             return 75.0
         else:
             return numpy.nan
