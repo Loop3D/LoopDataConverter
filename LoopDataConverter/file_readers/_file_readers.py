@@ -6,6 +6,7 @@ import geopandas
 import os
 import validators
 
+#TODO: add a metaclass for methods that are repetitive
 
 class BaseFileReader(ABC):
     def __init__(self):
@@ -77,16 +78,15 @@ class GeoDataFileReader(BaseFileReader):
         super().check_source_type(file_source)
         
     # TODO: add general check for variable types
-    def get_file(self, file_source: str, 
-                 layer: str = None):
+    def get_file(self, file_source: str, layer: str = None):
         file_extension = os.path.splitext(file_source)[1]
 
         if file_extension in [".shp", ".geojson"]:
             return geopandas.read_file(file_source)
 
         elif file_extension == ".gpkg":
-            assert layer is not None, "Layer name must be provided for GeoPackage files"
-
+            assert layer is False, "Layer name must be provided for GeoPackage files"
+            
             return geopandas.read_file(file_source, layer=layer)
 
         else:
@@ -107,14 +107,14 @@ class GeoDataFileReader(BaseFileReader):
             raise ValueError(f"Unsupported file format: {file_extension}")
 
     @beartype.beartype
-    def read(self, file_source: str):
+    def read(self, file_source: str, layer: str = None):
         self.check_source_type(file_source)
-        self.file = self.get_file(file_source)
+        self.file = self.get_file(file_source, layer)
         self.data = geopandas.GeoDataFrame(self.file)
 
 
 class LoopGisReader:
-    def __init__(self, fileData, layer=None):
+    def __init__(self, fileData, layer=""):
         self._layer = layer
         self._fileData = fileData
         self._reader = [None] * len(Datatype)
@@ -139,9 +139,9 @@ class LoopGisReader:
     def read(self, datatype: Datatype):
         self._reader[datatype] = self.assign_reader(self._fileData[datatype])
         self.file_reader_label[datatype] = self._reader[datatype].type()
-        self._reader[datatype].get_file(self._fileData[datatype], self._layer)
+        self._reader[datatype].read(self._fileData[datatype], self._layer)
 
-        return self._reader.data
+        return self._reader[datatype].data
 
     def __call__(self):
         """
