@@ -10,7 +10,6 @@ from ..utils import (
 
 # external imports
 import pandas
-import numpy
 
 
 class NTGSConverter(BaseConverter):
@@ -31,7 +30,7 @@ class NTGSConverter(BaseConverter):
 
         '''
         return self._type_label
-    
+
     def update_empty_rows(self):
         '''
         The function `update_empty_rows` updates empty rows in the DataFrame with NaN values.
@@ -39,22 +38,19 @@ class NTGSConverter(BaseConverter):
         Parameters
         ----------
             None
-        
-        This method operates on the DataFrames stored in the class and replaces all empty values 
+
+        This method operates on the DataFrames stored in the class and replaces all empty values
         (e.g., empty strings, None, NaN) with NaN across the specified tables.
         '''
-    
+
         # List of tables (DataFrames) to update
-        tables_to_update = [Datatype.FOLD, 
-                            Datatype.FAULT, 
-                            Datatype.STRUCTURE]
-        
+        tables_to_update = [Datatype.FOLD, Datatype.FAULT, Datatype.STRUCTURE]
+
         for table in tables_to_update:
             # Replace empty strings, None, or NaN with np.nan in the entire table
             self.raw_data[table] = self.raw_data[table].map(
                 lambda x: "NaN" if pandas.isna(x) or x == "" or x is None else x
             )
-
 
     def convert_fold_map(self):
         '''
@@ -63,17 +59,17 @@ class NTGSConverter(BaseConverter):
 
         '''
         # convert dip direction terms to degrees
-        self.raw_data[Datatype.FOLD]["AxPlaneDD"] = self.raw_data[Datatype.FOLD][
-            "AxPlaneDD"
-        ].apply(lambda x: convert_dipdir_terms(x))
+        self.raw_data[Datatype.FOLD]["AxPlaneDD"] = self.raw_data[Datatype.FOLD]["AxPlaneDD"].apply(
+            lambda x: convert_dipdir_terms(x)
+        )
         # convert dip terms to degrees
         self.raw_data[Datatype.FOLD]["AxPlaneDip"] = self.raw_data[Datatype.FOLD][
             "AxPlaneDip"
         ].apply(lambda x: convert_dip_terms(x, type="fold"))
         # convert tightness terms to degrees
-        self.raw_data[Datatype.FOLD]["Interlimb"] = self.raw_data[Datatype.FOLD][
-            "Interlimb"
-        ].apply(lambda x: convert_tightness_terms(x))
+        self.raw_data[Datatype.FOLD]["Interlimb"] = self.raw_data[Datatype.FOLD]["Interlimb"].apply(
+            lambda x: convert_tightness_terms(x)
+        )
 
     def convert_fault_map(self):
         '''
@@ -83,18 +79,18 @@ class NTGSConverter(BaseConverter):
         '''
 
         # convert dip direction terms to degrees
-        
+
         self.raw_data[Datatype.FAULT]["DipDirectn"] = self.raw_data[Datatype.FAULT][
-                "DipDirectn"
-            ].apply(lambda x: convert_dipdir_terms(x))
+            "DipDirectn"
+        ].apply(lambda x: convert_dipdir_terms(x))
         # convert dip terms to degrees
         self.raw_data[Datatype.FAULT]["Dip"] = self.raw_data[Datatype.FAULT]["Dip"].apply(
-                lambda x: convert_dip_terms(x, type="fault")
-            )
+            lambda x: convert_dip_terms(x, type="fault")
+        )
         # convert displacement terms to meters
-        self.raw_data[Datatype.FAULT]["Displace"] = self.raw_data[Datatype.FAULT][
-                "Displace"
-            ].apply(lambda x: convert_displacement_terms(x))
+        self.raw_data[Datatype.FAULT]["Displace"] = self.raw_data[Datatype.FAULT]["Displace"].apply(
+            lambda x: convert_displacement_terms(x)
+        )
 
     def convert_structure_map(self):
         '''
@@ -106,22 +102,19 @@ class NTGSConverter(BaseConverter):
         condition = (self.raw_data[Datatype.STRUCTURE]["Dip"] == -99) & (
             self.raw_data[Datatype.STRUCTURE]["DipEstimte"] != "NaN"
         )
-        
+
         # convert dip estimate to float (average of the range)
         self.raw_data[Datatype.STRUCTURE].loc[condition, "Dip"] = (
-        self.raw_data[Datatype.STRUCTURE]
-        .loc[condition, "DipEstimte"]
-        .apply(lambda x: convert_dip_terms(x, type="structure"))
+            self.raw_data[Datatype.STRUCTURE]
+            .loc[condition, "DipEstimte"]
+            .apply(lambda x: convert_dip_terms(x, type="structure"))
         )
-        
+
         # discard any rows that has a dip value of -99 and does not have any estimated dip value
         condition = (self.raw_data[Datatype.STRUCTURE]["Dip"] == -99) & (
             self.raw_data[Datatype.STRUCTURE]["DipEstimte"] == "NaN"
         )
-        self.raw_data[Datatype.STRUCTURE] = self.raw_data[Datatype.STRUCTURE][
-            ~condition
-        ]
-        
+        self.raw_data[Datatype.STRUCTURE] = self.raw_data[Datatype.STRUCTURE][~condition]
 
     def convert(self):
         '''

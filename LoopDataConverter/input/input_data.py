@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from ..datatypes import Datatype
 
+
 @dataclass
 class InputData:
     """Class to store input data for the loop data converter
@@ -11,7 +12,7 @@ class InputData:
         fault: Optional[Datatype] = None
         fold: Optional[Datatype] = None
     """
-    
+
     GEOLOGY: Datatype.GEOLOGY = None
     STRUCTURE: Datatype.STRUCTURE = None
     FAULT: Datatype.FAULT = None
@@ -33,7 +34,6 @@ class InputData:
             return getattr(self, datatype.name)
         except AttributeError:
             raise KeyError(f"Datatype {datatype.name} not found in InputData")
-
 
 
 # @dataclass

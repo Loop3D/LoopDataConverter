@@ -6,7 +6,8 @@ import geopandas
 import os
 import validators
 
-#TODO: add a metaclass for methods that are repetitive
+# TODO: add a metaclass for methods that are repetitive
+
 
 class BaseFileReader(ABC):
     def __init__(self):
@@ -22,7 +23,6 @@ class BaseFileReader(ABC):
             file_source
         ), "Invalid file source, must be a valid URL or file path"
 
-    
     @abstractmethod
     def get_file(self, file_source: str, layer: str = None):
         pass
@@ -50,7 +50,6 @@ class CSVFileReader(BaseFileReader):
     def check_source_type(self, file_source: str):
         super().check_source_type(file_source)
 
-    
     def get_file(self, file_source: str, layer: str = None):
         return pandas.read_csv(file_source)
 
@@ -76,7 +75,7 @@ class GeoDataFileReader(BaseFileReader):
     @beartype.beartype
     def check_source_type(self, file_source: str):
         super().check_source_type(file_source)
-        
+
     # TODO: add general check for variable types
     def get_file(self, file_source: str, layer: str = None):
         file_extension = os.path.splitext(file_source)[1]
@@ -86,7 +85,7 @@ class GeoDataFileReader(BaseFileReader):
 
         elif file_extension == ".gpkg":
             assert layer is False, "Layer name must be provided for GeoPackage files"
-            
+
             return geopandas.read_file(file_source, layer=layer)
 
         else:

@@ -25,8 +25,8 @@ class LoopConverter:
             The `data` parameter in the `__init__` method is of type `InputData`. It seems to represent the
         data that will be used in the survey.
         layer : str
-            The `layer` parameter is a string that represents a specific layer within a .GPKG file. 
-            It is an optional parameter with a default value of `None`, which means it can be omitted 
+            The `layer` parameter is a string that represents a specific layer within a .GPKG file.
+            It is an optional parameter with a default value of `None`, which means it can be omitted
             when creating an instance of the class. If provided, it specifies the layer to
 
         '''
