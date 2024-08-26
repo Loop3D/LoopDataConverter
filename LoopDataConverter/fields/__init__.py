@@ -1,1 +1,1 @@
-from ._ntgs import NtgsM2lConfig
+from ._ntgs import NtgsConfig
