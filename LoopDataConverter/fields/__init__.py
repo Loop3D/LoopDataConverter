@@ -1,0 +1,1 @@
+from ._ntgs import NtgsM2lConfig
