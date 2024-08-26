@@ -86,6 +86,7 @@ jobs:
           ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN  }}
         shell: bash -l {0}
         run: |
+          conda config --set solver classic
           conda install -c conda-forge conda-build pytest numpy scipy pandas geopandas sqlite shapely validators anaconda-client -y
           conda build -c anaconda -c conda-forge --output-folder conda conda 
           conda convert -p all conda/linux-64/*.tar.bz2 -f -o conda

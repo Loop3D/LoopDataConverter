@@ -13,7 +13,6 @@ build:
 
 requirements:
   build:
-    - mamba
     - {{ compiler('cxx') }}
     - numpy
     - pandas 
