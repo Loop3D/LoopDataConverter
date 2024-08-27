@@ -1,9 +1,8 @@
-from ...datatypes.enums import Datatype
 
 
 class NtgsConfig:
     def __init__(self):
-        self.fold_config ={
+        self.fold_config = {
             "structtype_column": "FoldEvent",
             "fold_text": "FeatDesc",
             "description_column": "Desc",
@@ -14,7 +13,7 @@ class NtgsConfig:
             "axial_plane_dipdir_column": "AxPlDipDir",
             "axial_plane_dip_column": "AxPlDip",
             "interp_source_column": "InterpSrce",
-            }
+        }
 
         self.fault_config = {
             "structtype_column": "FaultType",

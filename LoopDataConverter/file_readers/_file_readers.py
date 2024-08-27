@@ -161,4 +161,3 @@ class LoopGisReader:
 
     def save(self, datatype, file_path, file_extension=None):
         self._reader[datatype].save(file_path, file_extension)
-        
