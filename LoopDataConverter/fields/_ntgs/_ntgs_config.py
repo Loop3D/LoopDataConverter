@@ -3,20 +3,18 @@ from ...datatypes.enums import Datatype
 
 class NtgsConfig:
     def __init__(self):
-        self.fold_config = (
-            {
-                "structtype_column": "FoldEvent",
-                "fold_text": "FeatDesc",
-                "description_column": "Desc",
-                "synform_text": "FoldType",
-                "foldname_column": "FoldName",
-                "objectid_column": "OBJECTID",
-                "tightness_column": "IntlimbAng",
-                "axial_plane_dipdir_column": "AxPlDipDir",
-                "axial_plane_dip_column": "AxPlDip",
-                "interp_source_column": "InterpSrce",
-            },
-        )
+        self.fold_config ={
+            "structtype_column": "FoldEvent",
+            "fold_text": "FeatDesc",
+            "description_column": "Desc",
+            "synform_text": "FoldType",
+            "foldname_column": "FoldName",
+            "objectid_column": "OBJECTID",
+            "tightness_column": "IntlimbAng",
+            "axial_plane_dipdir_column": "AxPlDipDir",
+            "axial_plane_dip_column": "AxPlDip",
+            "interp_source_column": "InterpSrce",
+            }
 
         self.fault_config = {
             "structtype_column": "FaultType",
@@ -56,21 +54,21 @@ class NtgsConfig:
 
         self.structure_config = {
             "orientation_type": "dip direction",
-            "dipdir_column": "DipDir",
+            "dipdir_column": "DipDirectn",
             "dip_column": "Dip",
             "description_column": "FeatDesc",
             "bedding_text": "ObsType",
-            "overturned_column": "FeatureCodeDesc",
+            "overturned_column": "FeatDesc",
             "overturned_text": "overturned",
             "objectid_column": "ObjectID",
             "interp_source_column": "InterpSrce",
         }
 
         self.config_map = {
-            Datatype.GEOLOGY: self.geology_config,
-            Datatype.STRUCTURE: self.structure_config,
-            Datatype.FAULT: self.fault_config,
-            Datatype.FOLD: self.fold_config,
+            "geology": self.geology_config,
+            "structure": self.structure_config,
+            "fault": self.fault_config,
+            "fold": self.fold_config,
         }
 
     def __getitem__(self, datatype):

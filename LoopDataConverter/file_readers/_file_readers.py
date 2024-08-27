@@ -159,5 +159,6 @@ class LoopGisReader:
         if self._fileData[Datatype.FOLD] is not None:
             self._data[Datatype.FOLD] = self.read(Datatype.FOLD)
 
-    def save(self, file_path, file_extension=None):
-        self._reader.save(file_path, file_extension)
+    def save(self, datatype, file_path, file_extension=None):
+        self._reader[datatype].save(file_path, file_extension)
+        
