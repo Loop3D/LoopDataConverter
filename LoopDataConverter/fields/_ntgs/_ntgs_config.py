@@ -36,7 +36,7 @@ class NtgsConfig:
 
         self.geology_config = {
             "unitname_column": "Formation",
-            "alt_unitname_column": "CODE",
+            "alt_unitname_column": "Formation",
             "group_column": "Group",
             "supergroup_column": "Supergroup",
             "description_column": "LithDescn1",
@@ -48,11 +48,11 @@ class NtgsConfig:
             "intrusive_text": "RockCat",
             "volcanic_text": "RockCat",
             "objectid_column": "OBJECTID",
-            "ignore_codes": ["cover"],
+            "ignore_codes": ["cover", "Unknown", 'Pertatataka_Formation'],
         }
 
         self.structure_config = {
-            "orientation_type": "dip direction",
+            "orientation_type": "DipDirectn",
             "dipdir_column": "DipDirectn",
             "dip_column": "Dip",
             "description_column": "FeatDesc",
