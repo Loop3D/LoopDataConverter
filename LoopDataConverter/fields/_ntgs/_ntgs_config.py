@@ -1,5 +1,3 @@
-
-
 class NtgsConfig:
     def __init__(self):
         self.fold_config = {
