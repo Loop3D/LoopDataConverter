@@ -48,7 +48,7 @@ class NtgsConfig:
             "intrusive_text": "RockCat",
             "volcanic_text": "RockCat",
             "objectid_column": "OBJECTID",
-            "ignore_codes": ["cover", "Unknown", 'Pertatataka_Formation'],
+            "ignore_codes": ["cover", "Unknown"],
         }
 
         self.structure_config = {
