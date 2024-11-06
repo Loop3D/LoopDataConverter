@@ -1,5 +1,5 @@
 from .ntgs_converter import NTGSConverter
-from ..datatypes import SurveyName
+from ..datatypes import SurveyName, Datatype
 from ..file_readers import LoopGisReader
 from ..input import InputData
 
@@ -76,3 +76,17 @@ class LoopConverter:
         self._used_converter = self._used_converter(data)
         self._used_converter.convert()
         self.data = self._used_converter._data
+    
+
+    def save(self, datatype: Datatype, file_path: str, file_extension: str = None):
+        if file_extension == "geojson":
+            self.data[datatype].to_file(file_path, driver="GeoJSON")
+
+        elif file_extension == "gpkg":
+            self.data.to_file(file_path, driver="GPKG")
+
+        elif file_extension == "shp":
+            self.data[datatype].to_file(file_path)
+
+        else:
+            raise ValueError(f"Unsupported file format: {file_extension}")

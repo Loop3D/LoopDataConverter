@@ -36,39 +36,6 @@ class InputData:
             raise KeyError(f"Datatype {datatype.name} not found in InputData")
 
 
-# @dataclass
-# class InputData:
-#     """Class to store input data for the loop data converter
-
-#     Attributes:
-#     geology: Datatype.GEOLOGY = None
-#     structure: Datatype.STRUCTURE = None
-#     fault: Datatype.FAULT = None
-#     fold: Datatype.FOLD = None
-
-#     """
-
-#     geology: Datatype.GEOLOGY = None
-#     structure: Datatype.STRUCTURE = None
-#     fault: Datatype.FAULT = None
-#     fold: Datatype.FOLD = None
-
-#     def __getitem__(self, datatype: Datatype):
-#         """Method to get the the file directory of a datatype
-
-#         Parameters:
-#             datatype (Datatype): The datatype to get the file directory of
-
-#         Returns:
-#             The file directory of the datatype
-#         """
-
-#         try:
-#             return self.__dict__[datatype]
-#         except KeyError:
-#             raise KeyError(f"Datatype {datatype} not found in InputData")
-
-
 @dataclass
 class OutputData(InputData):
 
