@@ -5,6 +5,7 @@ import re
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)
 
+
 def convert_dipdir_terms(cardinal: str):
     """
     Convert cardinal directions to degrees.

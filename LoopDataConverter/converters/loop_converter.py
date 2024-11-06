@@ -76,7 +76,6 @@ class LoopConverter:
         self._used_converter = self._used_converter(data)
         self._used_converter.convert()
         self.data = self._used_converter._data
-    
 
     def save(self, datatype: Datatype, file_path: str, file_extension: str = None):
         if file_extension == "geojson":
