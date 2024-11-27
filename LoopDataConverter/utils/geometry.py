@@ -1,14 +1,35 @@
 import numpy
 import shapely
+import logging
+
+logging.basicConfig(level=logging.WARNING)
 
 
 def unit_vector(vector):
-    """Returns the unit vector of the vector."""
+    """
+    Returns the unit vector of the given vector.
+
+    Parameters:
+    vector (numpy.ndarray): A numpy array representing the vector.
+
+    Returns:
+    numpy.ndarray: The unit vector of the input vector.
+    """
     return vector / numpy.linalg.norm(vector)
 
 
 def calculate_angle(v1, v2):
-    """Returns the angle in degrees between two vectors."""
+    """
+    Returns the angle in degrees between two vectors.
+
+    Parameters:
+    v1 (array-like): The first vector.
+    v2 (array-like): The second vector.
+
+    Returns:
+    float: The angle in degrees between the two vectors.
+    """
+
     v1_u = unit_vector(v1)
     v2_u = unit_vector(v2)
     angle = numpy.degrees(numpy.arccos(numpy.clip(numpy.dot(v1_u, v2_u), -1.0, 1.0)))
@@ -16,9 +37,17 @@ def calculate_angle(v1, v2):
 
 
 def calculate_vector_along_line(line, intersection_point):
+    """Computes a unit vector along the provided LineString, aligned with its direction.
+
+    Parameters:
+        line (shapely.geometry.LineString): The LineString object representing the line.
+        intersection_point (tuple or list): Coordinates (x, y) of the intersection point.
+
+    Returns:
+        numpy.ndarray: A unit vector (array of floats) in the direction of the line.
+                       Returns [0, 0, 0] if no valid segment is found.
     """
-    Computes a unit vector along the LineString that is aligned with its direction.
-    """
+
     # Project the intersection point onto the line to find its position along the line
     proj_point = line.interpolate(line.project(shapely.geometry.Point(intersection_point)))
 
@@ -33,6 +62,7 @@ def calculate_vector_along_line(line, intersection_point):
             # Found the segment containing the projection point
             segment_vector = end - start
             return unit_vector(segment_vector)
-
-    # Fallback: Return zero vector if no segment is found (shouldn't happen)
-    return numpy.array([0, 0, 0])
+        else:
+            logging.warning("FaultConnector: No segment found for the intersection point.")
+        # Fallback: Return zero vector if no segment is found (shouldn't happen)
+        return numpy.array([0, 0, 0])
