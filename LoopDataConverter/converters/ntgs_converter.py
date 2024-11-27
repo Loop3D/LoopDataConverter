@@ -69,20 +69,20 @@ class NTGSConverter(BaseConverter):
         #     self.raw_data[Datatype.FOLD] = self.raw_data[Datatype.FOLD].rename(columns={'AxialPla_1': 'AxPlaneDip'})
         # if "InterlimbA" in self.raw_data[Datatype.FOLD].columns:
         #     self.raw_data[Datatype.FOLD] = self.raw_data[Datatype.FOLD].rename(columns={'InterlimbA': 'Interlimb'})
-            
+
         # convert dip direction terms to degrees
-        self.raw_data[Datatype.FOLD]["AxPlDipDir"] = self.raw_data[Datatype.FOLD]["AxPlDipDir"].apply(
-            lambda x: convert_dipdir_terms(x)
-        )
-        
+        self.raw_data[Datatype.FOLD]["AxPlDipDir"] = self.raw_data[Datatype.FOLD][
+            "AxPlDipDir"
+        ].apply(lambda x: convert_dipdir_terms(x))
+
         # convert dip terms to degrees
-        self.raw_data[Datatype.FOLD]["AxPlDip"] = self.raw_data[Datatype.FOLD][
-            "AxPlDip"
-        ].apply(lambda x: convert_dip_terms(x, type="fold"))
-        # convert tightness terms to degrees
-        self.raw_data[Datatype.FOLD]["IntlimbAng"] = self.raw_data[Datatype.FOLD]["IntlimbAng"].apply(
-            lambda x: convert_tightness_terms(x)
+        self.raw_data[Datatype.FOLD]["AxPlDip"] = self.raw_data[Datatype.FOLD]["AxPlDip"].apply(
+            lambda x: convert_dip_terms(x, type="fold")
         )
+        # convert tightness terms to degrees
+        self.raw_data[Datatype.FOLD]["IntlimbAng"] = self.raw_data[Datatype.FOLD][
+            "IntlimbAng"
+        ].apply(lambda x: convert_tightness_terms(x))
 
     def convert_fault_map(self):
         '''
@@ -93,9 +93,9 @@ class NTGSConverter(BaseConverter):
 
         # convert dip direction terms to degrees
 
-        self.raw_data[Datatype.FAULT]["DipDir"] = self.raw_data[Datatype.FAULT][
-            "DipDir"
-        ].apply(lambda x: convert_dipdir_terms(x))
+        self.raw_data[Datatype.FAULT]["DipDir"] = self.raw_data[Datatype.FAULT]["DipDir"].apply(
+            lambda x: convert_dipdir_terms(x)
+        )
         # convert dip terms to degrees
         self.raw_data[Datatype.FAULT]["Dip"] = self.raw_data[Datatype.FAULT]["Dip"].apply(
             lambda x: convert_dip_terms(x, type="fault")

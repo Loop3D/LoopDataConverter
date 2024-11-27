@@ -15,7 +15,7 @@ class NtgsConfig:
 
         self.fault_config = {
             "structtype_column": "FaultType",
-            "fault_text": "Thrust", #, Reverse,Normal,Shear zone,Strike-slip,Thrust,Unknown",
+            "fault_text": "Thrust",  # , Reverse,Normal,Shear zone,Strike-slip,Thrust,Unknown",
             "dip_null_value": "-999",
             "dipdir_flag": "num",
             "dipdir_column": "DipDir",
