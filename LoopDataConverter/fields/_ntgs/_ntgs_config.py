@@ -1,8 +1,8 @@
 class NtgsConfig:
     def __init__(self):
         self.fold_config = {
-            "structtype_column": "FoldEvent",
-            "fold_text": "FeatDesc",
+            "structtype_column": "FoldType",
+            "fold_text": "'Anticline','Syncline','Antiform','Synform','Monocline','Monoform','Neutral','Fold axis','Overturned syncline'",
             "description_column": "Desc",
             "synform_text": "FoldType",
             "foldname_column": "FoldName",
@@ -15,7 +15,7 @@ class NtgsConfig:
 
         self.fault_config = {
             "structtype_column": "FaultType",
-            "fault_text": "'Normal', 'Reverse', 'Shear zone', 'Strike-slip', 'Thrust', 'Unknown'",
+            "fault_text": "Thrust", #, Reverse,Normal,Shear zone,Strike-slip,Thrust,Unknown",
             "dip_null_value": "-999",
             "dipdir_flag": "num",
             "dipdir_column": "DipDir",
@@ -26,7 +26,7 @@ class NtgsConfig:
             "displacement_column": "Displace",
             "displacement_text": "'1m-100m', '100m-1km', '1km-5km', '>5km'",
             "fault_length_column": "FaultLen",
-            "fault_length_text": "'Small (0-5km)', 'Medium (5-30km)', 'Large (30-100km)', 'Regional (>100km)', 'Unclassified'",
+            "fault_length_text": "Small (0-5km),Medium (5-30km),Large (30-100km),Regional (>100km),Unclassified",
             "name_column": "FaultName",
             "objectid_column": "OBJECTID",
             "interp_source_column": "InterpSrce",
@@ -50,12 +50,12 @@ class NtgsConfig:
         }
 
         self.structure_config = {
-            "orientation_type": "DipDirectn",
-            "dipdir_column": "DipDirectn",
+            "orientation_type": "dip direction",
+            "dipdir_column": "DipDir",
             "dip_column": "Dip",
             "description_column": "FeatDesc",
             "bedding_text": "ObsType",
-            "overturned_column": "FeatDesc",
+            "overturned_column": "Desc",
             "overturned_text": "overturned",
             "objectid_column": "ObjectID",
             "interp_source_column": "InterpSrce",

@@ -58,16 +58,29 @@ class NTGSConverter(BaseConverter):
         to degrees.
 
         '''
+        # # rename columns
+        # if "AxialPlaneDipDir" in self.raw_data[Datatype.FOLD].columns:
+        #     self.raw_data[Datatype.FOLD] = self.raw_data[Datatype.FOLD].rename(columns={'AxialPlaneDipDir': 'AxPlDipDir'})
+        # if "AxialPlaneDip" in self.raw_data[Datatype.FOLD].columns:
+        #     self.raw_data[Datatype.FOLD] = self.raw_data[Datatype.FOLD].rename(columns={'AxialPlaneDip': 'AxPlaneDip'})
+        # if "AxialPlane" in self.raw_data[Datatype.FOLD].columns:
+        #     self.raw_data[Datatype.FOLD] = self.raw_data[Datatype.FOLD].rename(columns={'AxialPlane': 'AxPlDipDir'})
+        # if "AxialPla_1" in self.raw_data[Datatype.FOLD].columns:
+        #     self.raw_data[Datatype.FOLD] = self.raw_data[Datatype.FOLD].rename(columns={'AxialPla_1': 'AxPlaneDip'})
+        # if "InterlimbA" in self.raw_data[Datatype.FOLD].columns:
+        #     self.raw_data[Datatype.FOLD] = self.raw_data[Datatype.FOLD].rename(columns={'InterlimbA': 'Interlimb'})
+            
         # convert dip direction terms to degrees
-        self.raw_data[Datatype.FOLD]["AxPlaneDD"] = self.raw_data[Datatype.FOLD]["AxPlaneDD"].apply(
+        self.raw_data[Datatype.FOLD]["AxPlDipDir"] = self.raw_data[Datatype.FOLD]["AxPlDipDir"].apply(
             lambda x: convert_dipdir_terms(x)
         )
+        
         # convert dip terms to degrees
-        self.raw_data[Datatype.FOLD]["AxPlaneDip"] = self.raw_data[Datatype.FOLD][
-            "AxPlaneDip"
+        self.raw_data[Datatype.FOLD]["AxPlDip"] = self.raw_data[Datatype.FOLD][
+            "AxPlDip"
         ].apply(lambda x: convert_dip_terms(x, type="fold"))
         # convert tightness terms to degrees
-        self.raw_data[Datatype.FOLD]["Interlimb"] = self.raw_data[Datatype.FOLD]["Interlimb"].apply(
+        self.raw_data[Datatype.FOLD]["IntlimbAng"] = self.raw_data[Datatype.FOLD]["IntlimbAng"].apply(
             lambda x: convert_tightness_terms(x)
         )
 
@@ -80,8 +93,8 @@ class NTGSConverter(BaseConverter):
 
         # convert dip direction terms to degrees
 
-        self.raw_data[Datatype.FAULT]["DipDirectn"] = self.raw_data[Datatype.FAULT][
-            "DipDirectn"
+        self.raw_data[Datatype.FAULT]["DipDir"] = self.raw_data[Datatype.FAULT][
+            "DipDir"
         ].apply(lambda x: convert_dipdir_terms(x))
         # convert dip terms to degrees
         self.raw_data[Datatype.FAULT]["Dip"] = self.raw_data[Datatype.FAULT]["Dip"].apply(
@@ -100,19 +113,19 @@ class NTGSConverter(BaseConverter):
         '''
         # select any rows that has a dip value of -99 and have any estimated dip value
         condition = (self.raw_data[Datatype.STRUCTURE]["Dip"] == -99) & (
-            self.raw_data[Datatype.STRUCTURE]["DipEstimte"] != "NaN"
+            self.raw_data[Datatype.STRUCTURE]["DipEst"] != "NaN"
         )
 
         # convert dip estimate to float (average of the range)
         self.raw_data[Datatype.STRUCTURE].loc[condition, "Dip"] = (
             self.raw_data[Datatype.STRUCTURE]
-            .loc[condition, "DipEstimte"]
+            .loc[condition, "DipEst"]
             .apply(lambda x: convert_dip_terms(x, type="structure"))
         )
 
         # discard any rows that has a dip value of -99 and does not have any estimated dip value
         condition = (self.raw_data[Datatype.STRUCTURE]["Dip"] == -99) & (
-            self.raw_data[Datatype.STRUCTURE]["DipEstimte"] == "NaN"
+            self.raw_data[Datatype.STRUCTURE]["DipEst"] == "NaN"
         )
         self.raw_data[Datatype.STRUCTURE] = self.raw_data[Datatype.STRUCTURE][~condition]
 
