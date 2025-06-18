@@ -14,13 +14,13 @@ class NtgsConfig:
         }
 
         self.fault_config = {
+            "orientation_type" : "dip direction",
             "structtype_column": "FaultType",
-            "fault_text": "Thrust",  # , Reverse,Normal,Shear zone,Strike-slip,Thrust,Unknown",
+            "fault_text": "'Thrust','Reverse','Normal','Shear zone','Strike-slip','Thrust','Unknown'",
             "dip_null_value": "-999",
             "dipdir_flag": "num",
             "dipdir_column": "DipDir",
             "dip_column": "Dip",
-            "orientation_type": "dip direction",
             "dipestimate_column": "DipEstimate",
             "dipestimate_text": "'NORTH_EAST','NORTH',<rest of cardinals>,'NOT ACCESSED'",
             "displacement_column": "Displace",
@@ -29,6 +29,7 @@ class NtgsConfig:
             "fault_length_text": "Small (0-5km),Medium (5-30km),Large (30-100km),Regional (>100km),Unclassified",
             "name_column": "FaultName",
             "objectid_column": "OBJECTID",
+            "featureid_column": "featureId",
             "interp_source_column": "InterpSrce",
         }
 
@@ -57,7 +58,7 @@ class NtgsConfig:
             "bedding_text": "ObsType",
             "overturned_column": "Desc",
             "overturned_text": "overturned",
-            "objectid_column": "ObjectID",
+            "objectid_column": "OBJECTID",
             "interp_source_column": "InterpSrce",
         }
 
