@@ -1,6 +1,7 @@
 # internal imports
 from ..datatypes import Datatype
 from .base_converter import BaseConverter
+
 # from ..geometry_correction import FaultConnector
 from ..utils import (
     convert_dipdir_terms,
@@ -12,7 +13,6 @@ from ..utils import (
 # external imports
 import pandas
 import geopandas
-from shapely.geometry import Point
 
 
 class NTGSConverter(BaseConverter):
@@ -140,8 +140,8 @@ class NTGSConverter(BaseConverter):
         )
         self.raw_data[Datatype.STRUCTURE] = self.raw_data[Datatype.STRUCTURE][~condition]
         self.raw_data[Datatype.STRUCTURE]["Strike"] = (
-            (self.raw_data[Datatype.STRUCTURE]["DipDir"] + 90) % 360 
-        )
+            self.raw_data[Datatype.STRUCTURE]["DipDir"] + 90
+        ) % 360
         self.raw_data[Datatype.STRUCTURE]["X"] = self.raw_data[Datatype.STRUCTURE].geometry.x
         self.raw_data[Datatype.STRUCTURE]["Y"] = self.raw_data[Datatype.STRUCTURE].geometry.y
         self.raw_data[Datatype.STRUCTURE]["Z"] = 0.0
@@ -154,15 +154,18 @@ class NTGSConverter(BaseConverter):
 
         # Add strike and dip data from the Fault dataset where STRIKE and DIP rows contain a value and not a NaN value
         valid_faults = self.raw_data[Datatype.FAULT].dropna(
-        subset=["MSID", "X", "Y", "Z", "DipDir", "Strike", "Dip", "centroid"]
+            subset=["MSID", "X", "Y", "Z", "DipDir", "Strike", "Dip", "centroid"]
         )
         valid_faults = valid_faults.rename(columns={"MSID": "featureId"})
         valid_faults["geometry"] = valid_faults["centroid"]
-        self.raw_data[Datatype.FAULT_ORIENTATION] = geopandas.GeoDataFrame(valid_faults[["featureId", "X", "Y", "Z", "DipDir", "Dip", "geometry"]].copy(), crs=self.crs)
-        # Remove the string part of "featureId"
-        self.raw_data[Datatype.FAULT_ORIENTATION]["featureId"] = self.raw_data[Datatype.FAULT_ORIENTATION]["featureId"].apply(
-            lambda x: ''.join(filter(str.isdigit, str(x)))
+        self.raw_data[Datatype.FAULT_ORIENTATION] = geopandas.GeoDataFrame(
+            valid_faults[["featureId", "X", "Y", "Z", "DipDir", "Dip", "geometry"]].copy(),
+            crs=self.crs,
         )
+        # Remove the string part of "featureId"
+        self.raw_data[Datatype.FAULT_ORIENTATION]["featureId"] = self.raw_data[
+            Datatype.FAULT_ORIENTATION
+        ]["featureId"].apply(lambda x: ''.join(filter(str.isdigit, str(x))))
         self.raw_data[Datatype.FAULT] = self.raw_data[Datatype.FAULT].drop(columns="centroid")
 
         # fault_data = self.raw_data[Datatype.FAULT].copy()

@@ -93,7 +93,9 @@ class FaultConnector:
                     # Add the merged line and remove the old ones
                     self.processed_data = self.processed_data.drop([i, j]).reset_index(drop=True)
                     new_row = geopandas.GeoDataFrame({"geometry": [merged_line]}, crs=self.crs)
-                    self.processed_data = pandas.concat([self.processed_data, new_row], ignore_index=True)
+                    self.processed_data = pandas.concat(
+                        [self.processed_data, new_row], ignore_index=True
+                    )
                     self.processed_data = geopandas.GeoDataFrame(self.processed_data, crs=self.crs)
                     # self.processed_data = self.processed_data.concat(
                     #     {"geometry": merged_line}, ignore_index=True
