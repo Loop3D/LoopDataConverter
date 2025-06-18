@@ -148,9 +148,7 @@ def convert_displacement_terms(displacement_term: str):
         ``numpy.nan`` if the term cannot be parsed.
     """
 
-    logger.info(
-        f"convert_displacement_terms called with displacement_term: {displacement_term}"
-    )
+    logger.info(f"convert_displacement_terms called with displacement_term: {displacement_term}")
 
     def _value(text: str) -> float:
         """Convert a textual value with units to metres."""
@@ -169,7 +167,7 @@ def convert_displacement_terms(displacement_term: str):
             result = (_value(start) + _value(end)) / 2
         else:
             result = numpy.nan
-    except Exception:  # noqa: BLE001
+    except Exception:
         result = numpy.nan
 
     logger.info(f"convert_displacement_terms returning: {result}")
