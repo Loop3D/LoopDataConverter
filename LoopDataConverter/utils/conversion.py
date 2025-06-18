@@ -123,9 +123,9 @@ def convert_tightness_terms(tightness_term: str):
     elif tightness_term == "close":
         result = 50.0
     elif tightness_term == "tight":
-        result = 20.0
+        result = 15.0
     elif tightness_term == "isoclinal":
-        result = 5.0
+        result = 0.0
     else:
         result = numpy.nan
     logger.info(f"convert_tightness_terms returning: {result}")
@@ -133,23 +133,43 @@ def convert_tightness_terms(tightness_term: str):
 
 
 def convert_displacement_terms(displacement_term: str):
-    """
-    Convert displacement terms to a float value.
+    """Convert displacement terms expressed as ranges or inequalities.
 
-    Parameters:
-    displacement_term (str): The displacement term to convert.
+    Parameters
+    ----------
+    displacement_term : str
+        Term describing fault displacement. Examples include ``"1m-100m"`` or
+        ``">5km"``.
 
-    return (float): The displacement term as a float value.
+    Returns
+    -------
+    float
+        Displacement in metres, using the mean value of a range. Returns
+        ``numpy.nan`` if the term cannot be parsed.
     """
+
     logger.info(f"convert_displacement_terms called with displacement_term: {displacement_term}")
-    if displacement_term == "small":
-        result = 1.0
-    elif displacement_term == "moderate":
-        result = 2.0
-    elif displacement_term == "large":
-        result = 3.0
-    else:
+
+    def _value(text: str) -> float:
+        """Convert a textual value with units to metres."""
+        text = text.strip().lower()
+        if text.endswith("km"):
+            return float(text[:-2]) * 1000
+        if text.endswith("m"):
+            return float(text[:-1])
+        return float(text)
+
+    try:
+        if displacement_term.startswith(">"):
+            result = _value(displacement_term[1:])
+        elif "-" in displacement_term:
+            start, end = displacement_term.split("-", 1)
+            result = (_value(start) + _value(end)) / 2
+        else:
+            result = numpy.nan
+    except Exception:
         result = numpy.nan
+
     logger.info(f"convert_displacement_terms returning: {result}")
     return result
 
