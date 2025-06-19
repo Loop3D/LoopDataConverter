@@ -15,7 +15,7 @@ requirements:
   build:
     - {{ compiler('cxx') }}
     - numpy
-    - pandas 
+    - pandas
     - geopandas
     - shapely
     - dill
@@ -30,11 +30,11 @@ requirements:
   run:
     - numpy
     - python>=3.9
+
 test:
   import:
     - numpy
     - pandas
-
 
 about:
   home: "https://github.com/Loop3D/LoopDataConverter"
