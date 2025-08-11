@@ -10,7 +10,6 @@ class NtgsConfig:
             "tightness_column": "IntlimbAng",
             "axial_plane_dipdir_column": "AxPlDipDir",
             "axial_plane_dip_column": "AxPlDip",
-            "interp_source_column": "InterpSrce",
         }
 
         self.fault_config = {
@@ -29,8 +28,6 @@ class NtgsConfig:
             "fault_length_text": "Small (0-5km),Medium (5-30km),Large (30-100km),Regional (>100km),Unclassified",
             "name_column": "FaultName",
             "objectid_column": "OBJECTID",
-            "featureid_column": "featureId",
-            "interp_source_column": "InterpSrce",
         }
 
         self.geology_config = {
@@ -47,6 +44,7 @@ class NtgsConfig:
             "intrusive_text": "RockCat",
             "volcanic_text": "RockCat",
             "objectid_column": "OBJECTID",
+            "ignore_lithology_codes": ["cover", "Unknown"],
         }
 
         self.structure_config = {
@@ -58,7 +56,6 @@ class NtgsConfig:
             "overturned_column": "Desc",
             "overturned_text": "overturned",
             "objectid_column": "OBJECTID",
-            "interp_source_column": "InterpSrce",
         }
 
         self.config_map = {
