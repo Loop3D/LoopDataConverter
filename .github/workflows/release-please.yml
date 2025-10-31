@@ -115,7 +115,7 @@ jobs:
           path: dist/
 
   upload_to_conda:
-    needs: ["release-please", "conda-deploy"]
+    needs: ["release-please", "conda-build"]
     runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
@@ -138,7 +138,7 @@ jobs:
           anaconda upload --label main conda/*/*.tar.bz2
 
   upload_to_pypi:
-    needs: ["release-please", "conda-deploy"]
+    needs: ["release-please", "conda-build"]
     runs-on: "ubuntu-latest"
 
     if: ${{ needs.release-please.outputs.release_created }}
