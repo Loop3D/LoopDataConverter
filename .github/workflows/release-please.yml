@@ -62,7 +62,7 @@ jobs:
   # if a release is created then run the deploy scripts for github.io, conda, pypi and docker
   
   conda-deploy:
-    name: Building conda package for python ${{ matrix.os }})
+    name: Building conda package for python ${{ matrix.python-version }}-${{ matrix.os }})
     needs: "continuous-integration"
     runs-on: ${{matrix.os}}
     strategy:
