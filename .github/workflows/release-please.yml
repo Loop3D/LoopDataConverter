@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ${{ fromJSON(vars.BUILD_OS)}}
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: conda-incubator/setup-miniconda@v3
@@ -69,7 +69,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: conda-incubator/setup-miniconda@v3
         with:
@@ -88,14 +88,12 @@ jobs:
         run: |
           conda config --set solver libmamba
           conda install -c conda-forge conda-build pytest numpy scipy pandas geopandas sqlite shapely validators anaconda-client conda-libmamba-solver -y
-          conda build -c anaconda -c conda-forge --output-folder conda conda 
+          conda build -c conda-forge --output-folder conda conda 
           
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: conda-${{ matrix.os }}-${{ matrix.python-version }}
-          path: conda
-
+          name: conda-${{ matrix.os }}
   make_sdist:
     needs: "continuous-integration"
     name: Make SDist
@@ -120,7 +118,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
     if: ${{ needs.release-please.outputs.release_created }}
     steps:
       - uses: actions/download-artifact@v4
