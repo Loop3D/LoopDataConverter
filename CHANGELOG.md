@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/Loop3D/LoopDataConverter/compare/v0.2.0...v0.2.1) (2025-11-17)
+
+
+### Bug Fixes
+
+* corrected conda file name ([5c8a71f](https://github.com/Loop3D/LoopDataConverter/commit/5c8a71f2eebcdcaca12e8318e68f46d7dfdb7d67))
+
 ## [0.2.0](https://github.com/Loop3D/LoopDataConverter/compare/v0.1.2...v0.2.0) (2025-11-17)
 
 
