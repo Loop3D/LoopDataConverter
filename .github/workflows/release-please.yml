@@ -55,8 +55,9 @@ jobs:
         id: release
         with:
           release-type: python
-          package-name: LoopDataConverter
-          version-file: LoopDataConverter/version.py
+      - name: Debug release_created output
+        run: |
+          echo "Release created: ${{ steps.release.outputs.release_created }}"
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
   # if a release is created then run the deploy scripts for github.io, conda, pypi and docker
