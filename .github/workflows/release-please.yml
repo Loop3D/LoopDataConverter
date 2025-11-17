@@ -93,7 +93,8 @@ jobs:
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: conda-${{ matrix.python-version }}-${{ matrix.os }  make_sdist:
+          name: conda-${{ matrix.python-version }}-${{ matrix.os }}
+  make_sdist:
     needs: "continuous-integration"
     name: Make SDist
     runs-on: ubuntu-latest
