@@ -37,7 +37,7 @@ jobs:
       - name: Installing dependencies
         shell: bash -l {0}
         run: |
-          conda install -c conda-forge numpy>=2.1.0 scipy pytest dill beartype pandas geopandas shapely validators sqlite -y
+          conda install -c conda-forge 'numpy>=2.1.0' scipy pytest dill beartype pandas geopandas shapely validators sqlite -y
       - name: Building and install
         shell: bash -l {0}
         run: |
@@ -87,7 +87,7 @@ jobs:
         shell: bash -l {0}
         run: |
           conda config --set solver libmamba
-          conda install -c conda-forge conda-build pytest numpy>=2.1.0 scipy pandas geopandas sqlite shapely validators anaconda-client conda-libmamba-solver -y
+          conda install -c conda-forge conda-build pytest 'numpy>=2.1.0' scipy pandas geopandas sqlite shapely validators anaconda-client conda-libmamba-solver -y
           conda build -c conda-forge --output-folder conda conda 
           
       - name: upload artifacts
