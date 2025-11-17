@@ -87,13 +87,14 @@ jobs:
         shell: bash -l {0}
         run: |
           conda config --set solver libmamba
-          conda install -c conda-forge conda-build pytest numpy scipy pandas geopandas sqlite shapely validators anaconda-client conda-libmamba-solver -y
+          conda install -c conda-forge conda-build pytest numpy>=1.26.0 scipy pandas geopandas sqlite shapely validators anaconda-client conda-libmamba-solver -y
           conda build -c conda-forge --output-folder conda conda 
           
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: conda-${{ matrix.python-version }}-${{ matrix.os }}
+          name: conda-build-${{ matrix.python-version }}-${{ matrix.os }}
+          path: conda
   make_sdist:
     needs: "continuous-integration"
     name: Make SDist
