@@ -16,7 +16,7 @@ from LoopDataConverter.utils import conversion
     ],
 )
 def test_convert_dipdir_cardinals(cardinal, expected):
-    assert conversion.convert_dipdir_cardinals(cardinal) == expected
+    assert conversion.convert_dipdir_terms(cardinal) == expected
 
 
 @pytest.mark.parametrize(

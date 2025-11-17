@@ -14,7 +14,7 @@ build:
 requirements:
   build:
     - {{ compiler('cxx') }}
-    - numpy
+    - numpy {{ numpy }}
     - pandas 
     - geopandas
     - shapely
@@ -26,10 +26,10 @@ requirements:
     - pip
     - python
     - setuptools
-    - numpy
+    - numpy {{ numpy }}
   run:
-    - numpy
-    - python>=3.9
+    - numpy {{ numpy }}
+    - python>=3.10
 test:
   import:
     - numpy

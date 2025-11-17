@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ${{ fromJSON(vars.BUILD_OS)}}
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: conda-incubator/setup-miniconda@v3
@@ -37,7 +37,7 @@ jobs:
       - name: Installing dependencies
         shell: bash -l {0}
         run: |
-          conda install -c conda-forge numpy scipy pytest dill beartype pandas geopandas shapely validators sqlite -y
+          conda install -c conda-forge 'numpy>=2.1.0' scipy pytest dill beartype pandas geopandas shapely validators sqlite -y
       - name: Building and install
         shell: bash -l {0}
         run: |
@@ -49,7 +49,7 @@ jobs:
 
   release-please:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: GoogleCloudPlatform/release-please-action@v4
         id: release
@@ -61,20 +61,14 @@ jobs:
       release_created: ${{ steps.release.outputs.release_created }}
   # if a release is created then run the deploy scripts for github.io, conda, pypi and docker
   
-  conda-deploy:
-    name: Building conda package for python ${{ matrix.os }})
+  conda-build:
+    name: Building conda package for python
     needs: "continuous-integration"
-    runs-on: ${{matrix.os}}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: ["ubuntu-latest"]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+    runs-on: ubuntu-latest
     steps:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
-          python-version: ${{ matrix.python-version }}
 
       - uses: actions/checkout@v4
       - name: update submodules
@@ -86,16 +80,15 @@ jobs:
           ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN  }}
         shell: bash -l {0}
         run: |
-          conda install -c conda-forge conda-build pytest numpy scipy pandas geopandas sqlite shapely validators anaconda-client -y
-          conda build -c anaconda -c conda-forge --output-folder conda conda 
-          conda convert -p all conda/linux-64/*.tar.bz2 -f -o conda
-          conda install anaconda-client -y
+          conda config --set solver libmamba
+          conda install -c conda-forge conda-build pytest 'numpy>=2.1.0' scipy pandas geopandas sqlite shapely validators anaconda-client conda-libmamba-solver -y
+          conda build -c conda-forge --output-folder conda conda 
+          
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: conda-${{ matrix.os }}-${{ matrix.python-version }}
+          name: conda-build
           path: conda
-
   make_sdist:
     needs: "continuous-integration"
     name: Make SDist
@@ -114,18 +107,13 @@ jobs:
           path: dist/
 
   upload_to_conda:
-    needs: ["release-please", "conda-deploy"]
-    runs-on: ${{matrix.os}}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: ["ubuntu-latest"]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+    needs: ["release-please", "conda-build"]
+    runs-on: ubuntu-latest
     if: ${{ needs.release-please.outputs.release_created }}
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: conda-${{ matrix.os }}-${{ matrix.python-version }}
+          name: conda
           path: conda
       - uses: conda-incubator/setup-miniconda@v3
       - name: upload all files to conda-forge
@@ -134,10 +122,10 @@ jobs:
           ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN  }}
         run: |
           conda install -c anaconda anaconda-client -y
-          anaconda upload --label main conda/*/*.tar.bz2
+          anaconda upload --label main conda/*/*.conda
 
   upload_to_pypi:
-    needs: ["release-please", "conda-deploy"]
+    needs: ["release-please", "conda-build"]
     runs-on: "ubuntu-latest"
 
     if: ${{ needs.release-please.outputs.release_created }}

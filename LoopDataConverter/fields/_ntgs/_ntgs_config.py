@@ -1,76 +1,68 @@
-from ...datatypes.enums import Datatype
-
-
 class NtgsConfig:
     def __init__(self):
-        self.fold_config = (
-            {
-                "structtype_column": "FoldEvent",
-                "fold_text": "FeatureCodeDesc",
-                "description_column": "Description",
-                "synform_text": "FoldType",
-                "foldname_column": "FoldName",
-                "objectid_column": "OBJECTID",
-                "tightness_column": "InterlimbAngle",
-                "axial_plane_dipdir_column": "AxialPlaneDipDir",
-                "axial_plane_dip_column": "AxialPlaneDip",
-                "interp_source_column": "InterpSource",
-            },
-        )
+        self.fold_config = {
+            "structtype_column": "FoldType",
+            "fold_text": "'Anticline','Syncline','Antiform','Synform','Monocline','Monoform','Neutral','Fold axis','Overturned syncline'",
+            "description_column": "Desc",
+            "synform_text": "FoldType",
+            "foldname_column": "FoldName",
+            "objectid_column": "OBJECTID",
+            "tightness_column": "IntlimbAng",
+            "axial_plane_dipdir_column": "AxPlDipDir",
+            "axial_plane_dip_column": "AxPlDip",
+        }
 
         self.fault_config = {
+            "orientation_type": "dip direction",
             "structtype_column": "FaultType",
-            "fault_text": "'Normal', 'Reverse', 'Shear zone', 'Strike-slip', 'Thrust', 'Unknown'",
+            "fault_text": "'Thrust','Reverse','Normal','Shear zone','Strike-slip','Thrust','Unknown'",
             "dip_null_value": "-999",
             "dipdir_flag": "num",
-            "dipdir_column": "DipDirection",
+            "dipdir_column": "DipDir",
             "dip_column": "Dip",
-            "orientation_type": "dip direction",
             "dipestimate_column": "DipEstimate",
             "dipestimate_text": "'NORTH_EAST','NORTH',<rest of cardinals>,'NOT ACCESSED'",
-            "displacement_column": "Displacement",
+            "displacement_column": "Displace",
             "displacement_text": "'1m-100m', '100m-1km', '1km-5km', '>5km'",
-            "fault_length_column": "FaultLength",
-            "fault_length_text": "'Small (0-5km)', 'Medium (5-30km)', 'Large (30-100km)', 'Regional (>100km)', 'Unclassified'",
+            "fault_length_column": "FaultLen",
+            "fault_length_text": "Small (0-5km),Medium (5-30km),Large (30-100km),Regional (>100km),Unclassified",
             "name_column": "FaultName",
             "objectid_column": "OBJECTID",
-            "interp_source_column": "InterpSource",
         }
 
         self.geology_config = {
             "unitname_column": "Formation",
-            "alt_unitname_column": "CODE",
-            "group_column": "GroupSuite",
+            "alt_unitname_column": "Formation",
+            "group_column": "Group",
             "supergroup_column": "Supergroup",
-            "description_column": "LithDescription",
+            "description_column": "LithDescn1",
             "minage_column": "AgeMin",
             "maxage_column": "AgeMax",
             "rocktype_column": "LithClass",
-            "alt_rocktype_column": "RockCategory",
-            "sill_text": "RockCategory",
-            "intrusive_text": "RockCategory",
-            "volcanic_text": "RockCategory",
+            "alt_rocktype_column": "RockCat",
+            "sill_text": "RockCat",
+            "intrusive_text": "RockCat",
+            "volcanic_text": "RockCat",
             "objectid_column": "OBJECTID",
-            "ignore_codes": ["cover"],
+            "ignore_lithology_codes": ["cover", "Unknown"],
         }
 
         self.structure_config = {
             "orientation_type": "dip direction",
-            "dipdir_column": "DipDirection",
+            "dipdir_column": "DipDir",
             "dip_column": "Dip",
-            "description_column": "FeatureCodeDesc",
-            "bedding_text": "'Bedding', 'Cleavage', 'Faulting', 'Folding', 'Foliation', 'Geophysical', 'Igneous banding', 'Lineation'",
-            "overturned_column": "FeatureCodeDesc",
+            "description_column": "FeatDesc",
+            "bedding_text": "ObsType",
+            "overturned_column": "Desc",
             "overturned_text": "overturned",
-            "objectid_column": "ID",
-            "interp_source_column": "InterpSource",
+            "objectid_column": "OBJECTID",
         }
 
         self.config_map = {
-            Datatype.GEOLOGY: self.geology_config,
-            Datatype.STRUCTURE: self.structure_config,
-            Datatype.FAULT: self.fault_config,
-            Datatype.FOLD: self.fold_config,
+            "geology": self.geology_config,
+            "structure": self.structure_config,
+            "fault": self.fault_config,
+            "fold": self.fold_config,
         }
 
     def __getitem__(self, datatype):

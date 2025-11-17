@@ -1,9 +1,12 @@
+import logging
 import numpy
-import beartype
+import re
+
+logging.basicConfig(level=logging.ERROR)
+logger = logging.getLogger(__name__)
 
 
-@beartype.beartype
-def convert_dipdir_cardinals(cardinal: str):
+def convert_dipdir_terms(cardinal: str):
     """
     Convert cardinal directions to degrees.
 
@@ -12,40 +15,45 @@ def convert_dipdir_cardinals(cardinal: str):
 
     return (float): The cardinal direction in degrees.
     """
-    if cardinal == "N":
-        return 0.0
+    logger.info(f"convert_dipdir_terms called with cardinal: {cardinal}")
+    if cardinal == "NaN":
+        result = numpy.nan
+    elif cardinal == "N":
+        result = 0.0
     elif cardinal == "NNE":
-        return 22.5
+        result = 22.5
     elif cardinal == "NE":
-        return 45.0
+        result = 45.0
     elif cardinal == "ENE":
-        return 67.5
+        result = 67.5
     elif cardinal == "E":
-        return 90.0
+        result = 90.0
     elif cardinal == "ESE":
-        return 112.5
+        result = 112.5
     elif cardinal == "SE":
-        return 135.0
+        result = 135.0
     elif cardinal == "SSE":
-        return 157.5
+        result = 157.5
     elif cardinal == "S":
-        return 180.0
+        result = 180.0
     elif cardinal == "SSW":
-        return 202.5
+        result = 202.5
     elif cardinal == "SW":
-        return 225.0
+        result = 225.0
     elif cardinal == "WSW":
-        return 247.5
+        result = 247.5
     elif cardinal == "W":
-        return 270.0
+        result = 270.0
     elif cardinal == "WNW":
-        return 292.5
+        result = 292.5
     elif cardinal == "NW":
-        return 315.0
+        result = 315.0
     elif cardinal == "NNW":
-        return 337.5
+        result = 337.5
     else:
-        return numpy.nan
+        result = numpy.nan
+    logger.info(f"convert_dipdir_terms returning: {result}")
+    return result
 
 
 def convert_dip_terms(dip_term: str, type: str):
@@ -57,29 +65,44 @@ def convert_dip_terms(dip_term: str, type: str):
 
     return (float): The dip term in degrees.
     """
+    logger.info(f"convert_dip_terms called with dip_term: {dip_term}, type: {type}")
     if type == "fault":
-        if dip_term == "Vertical":
-            return 90.0
-        elif dip_term == "Horizontal":
-            return 0.0
-        elif dip_term == "Moderate":
-            return 45.0
-        elif dip_term == "Steep":
-            return 75.0
+        dip_text = split_string(dip_term)[0]
+        if dip_text == "Vertical":
+            result = 90.0
+        elif dip_text == "Horizontal":
+            result = 0.0
+        elif dip_text == "Moderate":
+            result = 45.0
+        elif dip_text == "Steep":
+            result = 75.0
         else:
-            return numpy.nan
+            result = numpy.nan
 
     elif type == "fold":
         if dip_term == "Upright":
-            return 90.0
+            result = 90.0
         elif dip_term == "Recumbent":
-            return 0.0
+            result = 0.0
         elif dip_term == "Inclined":
-            return 45.0
+            result = 45.0
         elif dip_term == "Reclined":
-            return 75.0
+            result = 75.0
         else:
-            return numpy.nan
+            result = numpy.nan
+    elif type == "structure":
+        if dip_term == "0-5":
+            result = 2.5
+        elif dip_term == "5-15":
+            result = 10.0
+        elif dip_term == "15-45":
+            result = 45.0
+        elif dip_term == ">45":
+            result = 75.0
+        else:
+            result = numpy.nan
+    logger.info(f"convert_dip_terms returning: {result}")
+    return result
 
 
 def convert_tightness_terms(tightness_term: str):
@@ -92,36 +115,75 @@ def convert_tightness_terms(tightness_term: str):
     return (float): The tightness term in degrees,
     which is the average of the interlimb angle range.
     """
+    logger.info(f"convert_tightness_terms called with tightness_term: {tightness_term}")
     if tightness_term == "gentle":
-        return 150.0
+        result = 150.0
     elif tightness_term == "open":
-        return 95.0
+        result = 95.0
     elif tightness_term == "close":
-        return 50.0
+        result = 50.0
     elif tightness_term == "tight":
-        return 15.0
+        result = 15.0
     elif tightness_term == "isoclinal":
-        return 0.0
+        result = 0.0
     else:
-        return numpy.nan
+        result = numpy.nan
+    logger.info(f"convert_tightness_terms returning: {result}")
+    return result
 
 
 def convert_displacement_terms(displacement_term: str):
+    """Convert displacement terms expressed as ranges or inequalities.
+
+    Parameters
+    ----------
+    displacement_term : str
+        Term describing fault displacement. Examples include ``"1m-100m"`` or
+        ``">5km"``.
+
+    Returns
+    -------
+    float
+        Displacement in metres, using the mean value of a range. Returns
+        ``numpy.nan`` if the term cannot be parsed.
     """
-    Convert displacement terms to meters.
+
+    logger.info(f"convert_displacement_terms called with displacement_term: {displacement_term}")
+
+    def _value(text: str) -> float:
+        """Convert a textual value with units to metres."""
+        text = text.strip().lower()
+        if text.endswith("km"):
+            return float(text[:-2]) * 1000
+        if text.endswith("m"):
+            return float(text[:-1])
+        return float(text)
+
+    try:
+        if displacement_term.startswith(">"):
+            result = _value(displacement_term[1:])
+        elif "-" in displacement_term:
+            start, end = displacement_term.split("-", 1)
+            result = (_value(start) + _value(end)) / 2
+        else:
+            result = numpy.nan
+    except Exception:
+        result = numpy.nan
+
+    logger.info(f"convert_displacement_terms returning: {result}")
+    return result
+
+
+def split_string(input_string):
+    """
+    Split a string into components.
 
     Parameters:
-    displacement_term (str): The displacement term to convert.
+    input_string (str): The string to split.
 
-    return (float): The displacement term in meters.
+    return (list): The components of the string.
     """
-    if displacement_term == "1m-100m":
-        return 50.5
-    elif displacement_term == "100m-1km":
-        return 550.0
-    elif displacement_term == "1km-5km":
-        return 3000.0
-    elif displacement_term == ">5km":
-        return 5000.0
-    else:
-        return numpy.nan
+    logger.info(f"split_string called with input_string: {input_string}")
+    result = re.split(r'\s+', input_string)
+    logger.info(f"split_string returning: {result}")
+    return result
