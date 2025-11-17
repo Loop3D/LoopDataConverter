@@ -29,7 +29,7 @@ requirements:
     - numpy {{ numpy }}
   run:
     - numpy {{ numpy }}
-    - python>=3.9
+    - python>=3.10
 test:
   import:
     - numpy
