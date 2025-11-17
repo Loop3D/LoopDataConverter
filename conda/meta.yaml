@@ -14,7 +14,7 @@ build:
 requirements:
   build:
     - {{ compiler('cxx') }}
-    - numpy {{ numpy }}
+    - numpy>=2.1.0 {{ numpy }}
     - pandas 
     - geopandas
     - shapely
