@@ -55,6 +55,7 @@ jobs:
         id: release
         with:
           release-type: python
+          version-file: LoopDataConverter/version.py
       - name: Debug release_created output
         run: |
           echo "Release created: ${{ steps.release.outputs.release_created }}"
