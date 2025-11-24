@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/Loop3D/LoopDataConverter/compare/v0.2.1...v0.3.0) (2025-11-24)
+
+
+### Features
+
+* specify version file for release process ([1117e87](https://github.com/Loop3D/LoopDataConverter/commit/1117e8737964390fa4ec00ca6bc8351e51c04cc0))
+
 ## [0.2.1](https://github.com/Loop3D/LoopDataConverter/compare/v0.2.0...v0.2.1) (2025-11-17)
 
 
