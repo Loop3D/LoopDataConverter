@@ -12,7 +12,9 @@ class LoopConverter:
     Map2Loop format using the adequate converter
     """
 
-    def __init__(self, survey_name: SurveyName, data: InputData, layer: str = None, config : dict = None):
+    def __init__(
+        self, survey_name: SurveyName, data: InputData, layer: str = None, config: dict = None
+    ):
         '''
         This function initializes an object with survey name, input data, and optional layer
         information, along with converters for different survey names.

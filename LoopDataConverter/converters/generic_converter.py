@@ -53,9 +53,9 @@ class GenericConverter(BaseConverter):
             dipdir_column
         ].apply(lambda x: convert_dipdir_terms(x))
 
-        self.raw_data[Datatype.FOLD][dip_column] = self.raw_data[Datatype.FOLD][
-            dip_column
-        ].apply(lambda x: convert_dip_terms(x, type="fold"))
+        self.raw_data[Datatype.FOLD][dip_column] = self.raw_data[Datatype.FOLD][dip_column].apply(
+            lambda x: convert_dip_terms(x, type="fold")
+        )
 
         self.raw_data[Datatype.FOLD][tightness_column] = self.raw_data[Datatype.FOLD][
             tightness_column
@@ -70,22 +70,19 @@ class GenericConverter(BaseConverter):
         dip_column = fault_config["dip_column"]
         displacement_column = fault_config["displacement_column"]
 
-
         self.raw_data[Datatype.FAULT][dipdir_column] = self.raw_data[Datatype.FAULT][
             dipdir_column
         ].apply(lambda x: convert_dipdir_terms(x))
 
-        self.raw_data[Datatype.FAULT][dip_column] = self.raw_data[Datatype.FAULT][
-            dip_column
-        ].apply(lambda x: convert_dip_terms(x, type="fault"))
+        self.raw_data[Datatype.FAULT][dip_column] = self.raw_data[Datatype.FAULT][dip_column].apply(
+            lambda x: convert_dip_terms(x, type="fault")
+        )
 
         self.raw_data[Datatype.FAULT][displacement_column] = self.raw_data[Datatype.FAULT][
             displacement_column
         ].apply(lambda x: convert_displacement_terms(x))
 
-        self.raw_data[Datatype.FAULT]["centroid"] = self.raw_data[
-            Datatype.FAULT
-        ].geometry.centroid
+        self.raw_data[Datatype.FAULT]["centroid"] = self.raw_data[Datatype.FAULT].geometry.centroid
         centroid_series = self.raw_data[Datatype.FAULT]["centroid"]
         self.raw_data[Datatype.FAULT]["centroid_x"] = centroid_series.x
         self.raw_data[Datatype.FAULT]["centroid_y"] = centroid_series.y
@@ -126,12 +123,8 @@ class GenericConverter(BaseConverter):
         self.raw_data[Datatype.STRUCTURE][strike_column] = (
             self.raw_data[Datatype.STRUCTURE][dipdir_column] + 90
         ) % 360
-        self.raw_data[Datatype.STRUCTURE][x_column] = self.raw_data[
-            Datatype.STRUCTURE
-        ].geometry.x
-        self.raw_data[Datatype.STRUCTURE][y_column] = self.raw_data[
-            Datatype.STRUCTURE
-        ].geometry.y
+        self.raw_data[Datatype.STRUCTURE][x_column] = self.raw_data[Datatype.STRUCTURE].geometry.x
+        self.raw_data[Datatype.STRUCTURE][y_column] = self.raw_data[Datatype.STRUCTURE].geometry.y
         self.raw_data[Datatype.STRUCTURE][z_column] = 0.0
 
     def fault_map_postprocessing(self):
@@ -171,9 +164,7 @@ class GenericConverter(BaseConverter):
         self.raw_data[Datatype.FAULT_ORIENTATION]["featureId"] = self.raw_data[
             Datatype.FAULT_ORIENTATION
         ]["featureId"].apply(lambda x: "".join(filter(str.isdigit, str(x))))
-        self.raw_data[Datatype.FAULT] = self.raw_data[Datatype.FAULT].drop(
-            columns=centroid_column
-        )
+        self.raw_data[Datatype.FAULT] = self.raw_data[Datatype.FAULT].drop(columns=centroid_column)
 
     def convert(self):
         """

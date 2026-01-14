@@ -205,11 +205,9 @@ class BaseConfig:
 
     def __getitem__(self, datatype):
         return self.config_map[datatype]
-    
+
     def update(self, geology_dict, structure_dict, fault_dict, fold_dict):
         self.update_geology_config(**geology_dict)
         self.update_structure_config(**structure_dict)
         self.update_fault_config(**fault_dict)
         self.update_fold_config(**fold_dict)
-        
-
