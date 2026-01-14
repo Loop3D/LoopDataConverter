@@ -1,4 +1,5 @@
 from .ntgs_converter import NTGSConverter
+from .generic_converter import GenericConverter
 from ..datatypes import SurveyName, Datatype
 from ..file_readers import LoopGisReader
 from ..input import InputData
@@ -11,7 +12,7 @@ class LoopConverter:
     Map2Loop format using the adequate converter
     """
 
-    def __init__(self, survey_name: SurveyName, data: InputData, layer: str = None):
+    def __init__(self, survey_name: SurveyName, data: InputData, layer: str = None, config : dict = None):
         '''
         This function initializes an object with survey name, input data, and optional layer
         information, along with converters for different survey names.
@@ -42,7 +43,9 @@ class LoopConverter:
             SurveyName.GSV: "",
             SurveyName.GSNSW: "",
             SurveyName.MRT: "",
+            SurveyName.GENERIC: GenericConverter,
         }
+        self.config = config
         self._used_converter = None
 
     def read_file(self):
