@@ -20,6 +20,7 @@ class SurveyName(IntEnum):
     GSV = 5
     MRT = 6
     GSNSW = 7
+    GENERIC = 8
 
 
 class Filetype(IntEnum):
